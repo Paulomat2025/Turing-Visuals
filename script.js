@@ -6,7 +6,7 @@ const gridOutput = document.getElementById('grid-output');
 const cameraSelect = document.getElementById('camera-select');
 
 // Einstellungen
-const GRID_SIZE = 120; // Größeres Raster für ganzen Bildschirm
+const GRID_SIZE = 64; // Rastergröße (Zeichen pro Zeile/Spalte)
 const GRAYSCALE_LEVELS = 5; // Reduzierte Graustufen für bessere Performance
 const UPDATE_INTERVAL = 150; // Update alle 150ms (ca. 6-7 FPS) für bessere Performance
 const CONTRAST_FACTOR = 1.5; // Kontrast-Verstärkung

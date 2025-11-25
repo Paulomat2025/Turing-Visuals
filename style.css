@@ -14,35 +14,6 @@ body {
     overflow: hidden;
 }
 
-.corner-bracket {
-    position: fixed;
-    font-family: 'Courier New', monospace;
-    font-size: 24px;
-    color: #ffffff;
-    z-index: 1000;
-    line-height: 1;
-}
-
-.corner-bracket.top-left {
-    top: 20px;
-    left: 20px;
-}
-
-.corner-bracket.top-right {
-    top: 20px;
-    right: 20px;
-}
-
-.corner-bracket.bottom-left {
-    bottom: 20px;
-    left: 20px;
-}
-
-.corner-bracket.bottom-right {
-    bottom: 20px;
-    right: 20px;
-}
-
 .controls {
     position: fixed;
     top: 20px;
@@ -99,7 +70,7 @@ body {
     border: none;
     overflow: visible;
     text-align: center;
-    font-size: calc(min(calc(100vw - 120px), calc(100vh - 120px)) / 120);
+    font-size: calc(min(calc(100vw - 120px), calc(100vh - 120px)) / 64);
     display: inline-block;
     max-width: 100%;
     max-height: 100%;
@@ -130,30 +101,6 @@ body {
 
 /* Responsive Design */
 @media (max-width: 768px) {
-    .corner-bracket {
-        font-size: 18px;
-    }
-
-    .corner-bracket.top-left,
-    .corner-bracket.top-right {
-        top: 10px;
-    }
-
-    .corner-bracket.bottom-left,
-    .corner-bracket.bottom-right {
-        bottom: 10px;
-    }
-
-    .corner-bracket.top-left,
-    .corner-bracket.bottom-left {
-        left: 10px;
-    }
-
-    .corner-bracket.top-right,
-    .corner-bracket.bottom-right {
-        right: 10px;
-    }
-
     .output-container {
         padding: 40px;
     }

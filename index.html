@@ -7,12 +7,6 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <!-- L-förmige Klammern in den Ecken -->
-    <div class="corner-bracket top-left">┌</div>
-    <div class="corner-bracket top-right">┐</div>
-    <div class="corner-bracket bottom-left">└</div>
-    <div class="corner-bracket bottom-right">┘</div>
-
     <div class="controls">
         <label for="camera-select">Kamera</label>
         <select id="camera-select" disabled>
@@ -26,7 +20,7 @@
 
     <!-- Verstecktes Video-Element für Kamera -->
     <video id="video" autoplay playsinline style="display: none;"></video>
-    <canvas id="canvas" style="display: none;"></canvas>
+    <canvas id="canvas" style="display: none; width: 100vw; height: 100vh;"></canvas>
 
     <script src="script.js"></script>
 </body>
