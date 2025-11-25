@@ -3,6 +3,7 @@ const video = document.getElementById('video');
 const canvas = document.getElementById('canvas');
 const ctx = canvas.getContext('2d');
 const gridOutput = document.getElementById('grid-output');
+const cameraSelect = document.getElementById('camera-select');
 
 // Einstellungen
 const GRID_SIZE = 120; // Größeres Raster für ganzen Bildschirm
@@ -26,29 +27,44 @@ let stream = null;
 let animationFrame = null;
 
 // Kamera starten
-async function startCamera() {
+async function startCamera(deviceId = null) {
     try {
-        // Kamera-Zugriff anfordern
-        stream = await navigator.mediaDevices.getUserMedia({
+        // Alte Streams stoppen
+        if (stream) {
+            stream.getTracks().forEach(track => track.stop());
+        }
+
+        const constraints = {
             video: {
-                facingMode: 'user', // Front-Kamera
                 width: { ideal: 640 },
                 height: { ideal: 480 }
             }
-        });
+        };
+
+        if (deviceId) {
+            constraints.video.deviceId = { exact: deviceId };
+        } else {
+            constraints.video.facingMode = 'user'; // standardmäßig Front-Kamera
+        }
+
+        // Kamera-Zugriff anfordern
+        stream = await navigator.mediaDevices.getUserMedia(constraints);
         
         video.srcObject = stream;
-        video.play();
+        await video.play();
         
         // Warten bis Video geladen ist
-        video.addEventListener('loadedmetadata', () => {
+        video.onloadedmetadata = () => {
             canvas.width = GRID_SIZE;
             canvas.height = GRID_SIZE;
             
             // Starte kontinuierliche Konvertierung
             startConversion();
-        });
-        
+        };
+
+        const [track] = stream.getVideoTracks();
+        const activeDeviceId = track?.getSettings()?.deviceId || deviceId || null;
+        await populateCameraOptions(activeDeviceId);
     } catch (error) {
         console.error('Kamera-Fehler:', error);
     }
@@ -109,6 +125,11 @@ function displayGrid(grid) {
 
 // Kontinuierliche Konvertierung starten
 function startConversion() {
+    if (animationFrame) {
+        cancelAnimationFrame(animationFrame);
+        animationFrame = null;
+    }
+
     let lastUpdate = 0;
     
     function update() {
@@ -124,6 +145,55 @@ function startConversion() {
     }
     
     update();
+}
+
+// Kamera-Geräte abrufen und in Auswahl anzeigen
+async function getCameraDevices() {
+    if (!navigator.mediaDevices?.enumerateDevices) {
+        return [];
+    }
+    
+    const devices = await navigator.mediaDevices.enumerateDevices();
+    return devices.filter(device => device.kind === 'videoinput');
+}
+
+async function populateCameraOptions(activeDeviceId = null) {
+    if (!cameraSelect) return;
+    
+    const cameras = await getCameraDevices();
+    cameraSelect.innerHTML = '';
+    
+    if (cameras.length === 0) {
+        const option = document.createElement('option');
+        option.textContent = 'Keine Kamera gefunden';
+        option.disabled = true;
+        cameraSelect.appendChild(option);
+        cameraSelect.disabled = true;
+        return;
+    }
+    
+    cameras.forEach((camera, index) => {
+        const option = document.createElement('option');
+        option.value = camera.deviceId;
+        option.textContent = camera.label || `Kamera ${index + 1}`;
+        if (activeDeviceId) {
+            option.selected = camera.deviceId === activeDeviceId;
+        } else if (index === 0) {
+            option.selected = true;
+        }
+        cameraSelect.appendChild(option);
+    });
+    
+    cameraSelect.disabled = cameras.length <= 1;
+}
+
+if (cameraSelect) {
+    cameraSelect.addEventListener('change', event => {
+        const deviceId = event.target.value;
+        if (deviceId) {
+            startCamera(deviceId);
+        }
+    });
 }
 
 // Aufräumen beim Verlassen der Seite
