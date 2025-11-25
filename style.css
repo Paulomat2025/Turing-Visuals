@@ -1,0 +1,131 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Courier New', monospace;
+    background: #000000;
+    min-height: 100vh;
+    padding: 0;
+    color: #ffffff;
+    position: relative;
+    overflow: hidden;
+}
+
+.corner-bracket {
+    position: fixed;
+    font-family: 'Courier New', monospace;
+    font-size: 24px;
+    color: #ffffff;
+    z-index: 1000;
+    line-height: 1;
+}
+
+.corner-bracket.top-left {
+    top: 20px;
+    left: 20px;
+}
+
+.corner-bracket.top-right {
+    top: 20px;
+    right: 20px;
+}
+
+.corner-bracket.bottom-left {
+    bottom: 20px;
+    left: 20px;
+}
+
+.corner-bracket.bottom-right {
+    bottom: 20px;
+    right: 20px;
+}
+
+.output-container {
+    width: 100vw;
+    height: 100vh;
+    background: #000000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 60px;
+    overflow: hidden;
+    box-sizing: border-box;
+}
+
+.grid-output {
+    font-family: 'Courier New', monospace;
+    line-height: 1;
+    letter-spacing: 0;
+    white-space: pre;
+    background: #000000;
+    padding: 0;
+    border: none;
+    overflow: visible;
+    text-align: center;
+    font-size: calc(min(calc(100vw - 120px), calc(100vh - 120px)) / 120);
+    display: inline-block;
+    max-width: 100%;
+    max-height: 100%;
+}
+
+.grid-output .cell {
+    display: inline-block;
+    padding: 0;
+    margin: 0;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 0;
+    text-align: center;
+    font-weight: normal;
+    width: 1em;
+    height: 1em;
+    line-height: 1;
+    aspect-ratio: 1;
+    box-sizing: border-box;
+    background: #000000; /* Kästchen bleiben schwarz */
+}
+
+/* ASCII-Art: Alle Zeichen weiß auf schwarzem Hintergrund */
+.grid-output .cell {
+    background: #000000;
+    color: #ffffff;
+    font-family: 'Courier New', monospace;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .corner-bracket {
+        font-size: 18px;
+    }
+
+    .corner-bracket.top-left,
+    .corner-bracket.top-right {
+        top: 10px;
+    }
+
+    .corner-bracket.bottom-left,
+    .corner-bracket.bottom-right {
+        bottom: 10px;
+    }
+
+    .corner-bracket.top-left,
+    .corner-bracket.bottom-left {
+        left: 10px;
+    }
+
+    .corner-bracket.top-right,
+    .corner-bracket.bottom-right {
+        right: 10px;
+    }
+
+    .output-container {
+        padding: 40px;
+    }
+
+    .grid-output {
+        font-size: 1.5vw;
+    }
+}
+
