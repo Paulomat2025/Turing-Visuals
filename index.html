@@ -7,6 +7,8 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
+    <div id="p5-container"></div>
+
     <div class="controls">
         <label for="camera-select">Kamera</label>
         <select id="camera-select" disabled>
@@ -18,10 +20,7 @@
         <div id="grid-output" class="grid-output"></div>
     </div>
 
-    <!-- Verstecktes Video-Element für Kamera -->
-    <video id="video" autoplay playsinline style="display: none;"></video>
-    <canvas id="canvas" style="display: none; width: 100vw; height: 100vh;"></canvas>
-
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.9.1/p5.min.js" integrity="sha512-7xXHITVEWilR92pT9XyM54q9WlH0I1GtIsfRSAxEPPGjBJOCa/MEGLjm+rXhN3kLBXjg5eQof8RP4eAbOeXtfA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="script.js"></script>
 </body>
 </html>
