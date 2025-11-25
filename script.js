@@ -51,16 +51,20 @@ async function startCamera(deviceId = null) {
         stream = await navigator.mediaDevices.getUserMedia(constraints);
         
         video.srcObject = stream;
-        await video.play();
-        
-        // Warten bis Video geladen ist
-        video.onloadedmetadata = () => {
+
+        const handleLoadedMetadata = () => {
             canvas.width = GRID_SIZE;
             canvas.height = GRID_SIZE;
-            
-            // Starte kontinuierliche Konvertierung
             startConversion();
         };
+
+        if (video.readyState >= 1) {
+            handleLoadedMetadata();
+        } else {
+            video.addEventListener('loadedmetadata', handleLoadedMetadata, { once: true });
+        }
+        
+        await video.play();
 
         const [track] = stream.getVideoTracks();
         const activeDeviceId = track?.getSettings()?.deviceId || deviceId || null;
